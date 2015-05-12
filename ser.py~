@@ -1,0 +1,82 @@
+import pygame,sys,time,math,random
+from pygame.locals import *
+angle =0
+x,y=01,01
+thick=20
+ang=4
+thickn=400
+i=0
+size=(1360,700)
+
+RANGE=360
+XRANGE=1260
+YRANGE=600
+center=(200,202)
+def rotate(pic,ang,thickn):
+ orig=pic.get_rect()
+ orig.center=pic.get_rect().center
+ pic=pygame.transform.scale(pic,(thickn,thickn))
+ pic=pygame.transform.rotate(pic,ang)
+ 
+ return pic
+
+
+xr=input("x\n")
+yr=input("y\n")
+inc=input("speed \n")
+name=raw_input("name\n")
+sine=math.sin(math.atan(xr/yr*1.0))
+cosine=math.cos(math.atan(xr/yr*1.0))
+print (sine,cosine)
+
+col=(236, 240, 241)
+screen=pygame.display.set_mode(size)
+
+
+logo=pygame.image.load(name)
+#logo=pygame.image.load("pyconau_logo.png")
+screen.fill(col)
+
+pygame.init()
+incx=inc
+incy=inc
+while(1):
+ 
+ screen.fill(col)
+ for event in pygame.event.get():
+  if event.type==QUIT:
+   sys.exit()
+ 
+ xr=xr+incx
+ yr=yr+incy
+ if(xr>XRANGE-200):
+  incx=incx*-1
+ if(xr<0):
+  incx=incx*-1
+
+ if(yr>YRANGE-200):
+   incy=incy*-1
+ if(yr<0):
+   incy=incy*-1
+
+ x=(xr)*sine
+ y=(yr)*cosine
+
+ if(angle>45):
+   ang=ang*-1
+ if(angle<-45):
+   ang=ang*-1
+ if(thickn>500):
+   thick=thick*-1
+ if(thickn<200):
+   thick=thick*-1
+ thickn=thick+thickn
+ angle=angle+ang
+ copy=logo
+ print copy.get_rect().center
+ copy=rotate(copy,angle,thickn)
+ screen.blit(copy,(x,y))
+ print xr,yr,incx,incy
+ pygame.display.update()
+ time.sleep(0.1)
+
